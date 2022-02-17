@@ -1,20 +1,25 @@
-def longestIncreasingPath(matrix):  
-
-    def dfs(i,j):
-        if not dp[i][j]:
-            val = matrix[i][j]
-            dp[i][j] = 1 + max(
-                    dfs(i-1,j) if i and val > matrix[i-1][j] else 0,
-                    dfs(i+1,j) if i < M - 1 and val > matrix[i+1][j] else 0,
-                    dfs(i,j-1) if j and val > matrix[i][j-1] else 0,
-                    dfs(i,j+1) if j < N - 1 and val > matrix[i][j+1] else 0
-            )
-        return dp[i][j]
-
-
-    if not matrix or not matrix[0]: return 0
-
-    M = len(matrix)
-    N = len(matrix[0])
-    dp = [[0]*N for _ in range(M)]
-    return max(dfs(x,y) for x in range(M) for y in range(N))
+n = 3
+inputs = ['0 30', '5 10', '15 20']
+concerts = []
+for i in range(n):
+    concerts.append(list(map(lambda x: int(x), inputs[i].split())))
+concerts = sorted(concerts, key= lambda x: x[0])
+arr = [[concerts[0]]]
+for concert in concerts[1:]:
+    
+    for sala_idx in range(len(arr)):
+        meter = True
+        sala = arr[sala_idx]
+        for con in sala:
+            range_con = range(con[0], con[1])
+            if concert[0] in range_con or concert[1] in range_con:
+                meter = False
+                break
+        if meter:
+            sala.append(concert)
+            break
+        
+    if not meter:
+        arr.append([concert])
+            
+print(len(arr))
