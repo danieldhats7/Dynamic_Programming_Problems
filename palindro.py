@@ -23,3 +23,4 @@ for concert in concerts[1:]:
         arr.append([concert])
             
 print(len(arr))
+
